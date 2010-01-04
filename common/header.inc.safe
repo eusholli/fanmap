@@ -1,0 +1,22 @@
+<?php
+
+  $currentPage = basename($_SERVER['PHP_SELF']);
+  $tabs=array('http://apps.facebook.com/fanmapping/index.php' => 'Home', 
+              'http://apps.facebook.com/fanmapping/fanmap.php?fanmap_sig_page_id=' . $_POST["fb_sig_page_id"] => 'Fan Map'
+             );
+  echo "<fb:tabs>";
+  foreach($tabs as $key => $value) {
+
+    $pos = strpos($key,$currentPage);
+    if($pos === false) {
+      // string currentPage NOT found in key
+      $selected="";
+    } else {
+      // string currentPage found in key
+      $selected="selected='true'";
+    }
+
+    echo "<fb:tab-item href='$key' title='$value' $selected/>";
+  }
+  echo "</fb:tabs>";
+?>

@@ -1,0 +1,75 @@
+<?php
+  require_once 'db/db.inc';
+  $query = "SELECT * FROM Fan where fb_page_id=\"" . $_GET['fanmap_sig_page_id'] . "\"";
+  // echo $query;
+  $rows = queryDB($query);
+?>
+
+<html>
+<head>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript">
+  var openWindow = null;
+  var openMarker = null;
+  function initialize() {
+    var latlng = new google.maps.LatLng(-34.397, 150.644);
+    var myOptions = {
+      zoom: 1,
+      center: latlng,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+
+//    var latlngbounds = new google.maps.LatLngBounds();
+//    <?php
+//    foreach($rows as $row) {
+//    ?>
+//      // latlng: an array of instances of GLatLng
+//      latlngbounds.extend( new google.maps.LatLng(<?php echo $row['latitude'] . ',' . $row['longitude']; ?>) );
+//    <?php 
+//    }
+//    ?>
+//    map.fitBounds(latlngbounds);
+
+    <?php 
+    $count=1;
+    foreach($rows as $row) {
+    $contentString = '\'<div style="font-family:sans-serif;"><table><tr><td> <a style="text-decoration: none; " href="' . $row['profile_url'] . '"><img border="0" src="' . $row['pic_square'] . '"/></a></td><td><a style="text-decoration: none;" href="' . $row['profile_url'] . '">' . $row['name'] . '</a><br />' . $row['city'] . '<br />' . $row['countryName'] . '</td></tr></table></div>\'';
+    $infiwindowVar = 'infiwindow' . $count;
+    $markerVar = 'marker' . $count++;
+    ?>
+      var <?php echo $markerVar ?> = new google.maps.Marker({
+      position: new google.maps.LatLng(<?php echo $row['latitude'] . ',' . $row['longitude']; ?>), 
+      title: "<?php echo $row['name']; ?>",
+      clickable: true,
+      map: map
+      });
+
+      var <?php echo $infiwindowVar ?> = new google.maps.InfoWindow(
+      {
+      content: <?php echo $contentString ?>
+
+      });
+
+      google.maps.event.addListener(<?php echo $markerVar ?>,'click',function(){
+        if(openWindow != null) {
+
+          openWindow.close(map,openMarker);
+        }
+        openWindow = <?php echo $infiwindowVar ?>;
+        openMarker = <?php echo $markerVar ?>;
+        <?php echo $infiwindowVar ?>.open(map,<?php echo $markerVar ?>);
+      });
+
+    <?php 
+    }
+    ?>
+  }
+
+</script>
+</head>
+<body onload="initialize()">
+  <div id="map_canvas" style="width:100%; height:100%"></div>
+</body>
+</html>

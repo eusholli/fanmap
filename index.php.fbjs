@@ -1,0 +1,145 @@
+<!-- BEGIN CODE -->
+<!---------------------------------------------------------------------------------
+Facebook Dynamic Tabs, built using FBML & FBJS
+Code Created By: Craig Gallant, with some code from the Facebook Developer Forums, 
+altered and perfected to fit the needs of most Facebook independant Developers ( 3rd Parties ).
+Works Great on Fan Pages via the Static FBML application! 
+Presumably works great anywhere Facebook parses FBML & FBJS
+
+NOTES:
+If you change the IDs of any containers, you may experience errors.
+It is recommended that you leave the IDs intact and to only alter the link titles, and container content, if you choose to alter the IDs, you will have to modify the other IDs that are used to control the code.
+The IDs are labeled in such a way that it will work regardless of the type of content you want to show.
+You can only use this code in areas that Facebook parses your code.
+You can have all five tabs or you can comment out the extra tabs you don't need.
+Five Tabs is the maximum for a wide canvass, if its on the side of the page, it may only accommodate two tabs with out breaking the design.
+You can copy the exact same code for multiple FBML boxes, without any issue, each box set will work, regardless of the number of separate FBML boxes.
+----------------------------------------------------------------------------------->
+
+<style type="text/css">
+/*
+Tab Styles, fit fo look like an application tab set
+*/
+
+/* BEGIN TAB APPEARANCE */
+.clearfix:after { content: "."; display: block; clear: both; visibility: hidden; line-height: 0; height: 0; }
+.clearfix { display: inline-block; }
+html[xmlns] .clearfix { display: block; }
+* html .clearfix { height: 1%; }
+.fb-tabs { padding: 0px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #898989; width: 100%; }
+.fb-tabs .left_tabs { float: left; padding-left: 10px; }
+.fb-tabs .right_tabs { float: right; padding-right: 10px; }
+.fb-tabitems { display: inline; list-style: none; margin: 0; padding: 0; text-align: center; }
+.fb-tabitems li { list-style:none; float:left; background: #f1f1f1 url(http://www.facebook.com/images/components/toggle_tab_gloss.gif) top left repeat-x; margin-top: 0; margin-right: 0px; margin-bottom: -1px; margin-left: 0px; padding-top: 2px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; }
+.fb-tabitems li a { border: 1px solid #898989; display:block; color: #333; font-weight: bold; padding-top: 2px; padding-right: 8px; padding-bottom: 2px; padding-left: 9px; }
+.fb-tabitems li a small { font-size: 11px; font-weight: normal; }
+.fb-tabitems li a:focus { outline: 0px; }
+.fb-tabitems li.first a { border:1px solid #898989; }
+.fb-tabitems li a.selected { background: #6d84b4; border: 1px solid #3b5998; border-left: 1px solid #5973a9; border-right: 1px solid #5973a9; color: #fff; margin-left: -1px; }
+.fb-tabitems li.last a.selected { margin-left:-1px; border-left:1px solid #5973a9; border-right:1px solid #36538f; }
+.fb-tabitems li.first a.selected { margin: 0; border-left: 1px solid #36538f; border-right: 1px solid #5973a9; }
+.fb-tabitems li.first.last a.selected { border: 1px solid #36538f; }
+.fb-tabitems li a.selected:hover { text-decoration: none; }
+/* END TAB APPEARANCE */
+
+/* BEGIN CONTENT APPEARANCE */
+.content { border-width: 1px; border-style: solid; border-color: #898989; padding-left: 8px; padding-top:3px; padding-right: 8px; padding-bottom:3px; }
+.content #tabOne {
+   /* Put CSS code here to alter the look and feel of the displayed Tab One content */
+}
+.content #tabTwo {
+   /* Put CSS code here to alter the look and feel of the displayed Tab Two content */
+}
+.content #tabThree {
+   /* Put CSS code here to alter the look and feel of the displayed Tab Three content */
+}
+.content #tabFour {
+   /* Put CSS code here to alter the look and feel of the displayed Tab Four content */
+}
+.content #tabFive {
+   /* Put CSS code here to alter the look and feel of the displayed Tab Five content */
+}
+/* END CONTENT APPEARANCE */
+</style>
+
+<script type="text/javascript">
+/*
+This is NOT regular JavaScript, you WILL encounter errors if used in a regular HTML Page
+This is Facebook JavaScript ( FBJS ). It has to be parsed by Facebook, before it will work correctly.
+*/
+
+/* BEGIN FBJS */
+function show_or_hide(id, style) { if (id == null) return; document.getElementById(id).setStyle({display: style}); }
+function show(id) { show_or_hide(id, ''); }
+function hide(id) { show_or_hide(id, 'none'); }
+function showtab(id) { hideall(); setselected(id + 'LI'); show(id); return false; }
+
+function hideall() {
+   hide('tabOne');
+   hide('tabTwo');
+   hide('tabThree');
+   hide('tabFour');
+   hide('tabFive');
+}
+
+function setselected(id) { 
+   document.getElementById("tabOneLI").setClassName("");
+   document.getElementById("tabTwoLI").setClassName("");
+   document.getElementById("tabThreeLI").setClassName("");
+   document.getElementById("tabFourLI").setClassName("");
+   document.getElementById("tabFiveLI").setClassName("");
+
+   document.getElementById(id).setClassName("selected");
+
+
+return;
+
+}
+/* END FBJS */
+</script>
+
+<!-- BEGIN TAB DISPLAY -->
+<div class="fb-tabs clearfix"><center>
+
+   <div class="left_tabs">
+      <ul class="fb-tabitems clearfix">
+         <li><a href="#" id="tabOneLI" onclick="showtab('tabOne'); return false;" class="selected">Tab One</a></li>
+         <li><a href="#" id="tabTwoLI" onclick="showtab('tabTwo'); return false;">Tab Two</a></li>
+         <li><a href="#" id="tabThreeLI" onclick="showtab('tabThree'); return false;">Tab Three</a></li>
+      </ul>
+   </div>
+
+   <div class="right_tabs">
+      <ul class="fb-tabitems clearfix">
+         <li><a href="#" id="tabFourLI" onclick="showtab('tabFour'); return false;">Tab Four</a></li>
+         <li><a href="#" id="tabFiveLI" onclick="showtab('tabFive'); return false;">Tab Five</a></li>
+      </ul>
+   </div>
+
+</center></div>
+<!-- END TAB DISPLAY -->
+
+<!-- BEGIN CONTENT DISPLAY -->
+<!-- KEEP THE STYLE ENTRIES IN PLACE: 4 of the 5 Content Containers are hidden -->
+<div class="content" id="tabOne">
+   <p>Put the contents of Tab One here</p>
+</div>
+
+<div class="content" id="tabTwo" style="display:none;">
+   <p>Put the contents of Tab Two here</p>
+   <?php require_once 'fanmap.php'; ?>
+</div>
+
+<div class="content" id="tabThree" style="display:none;">
+   <p>Put the contents of Tab Three here</p>
+</div>
+
+<div class="content" id="tabFour" style="display:none;">
+   <p>Put the contents of Tab Four here</p>
+</div>
+
+<div class="content" id="tabFive" style="display:none;">
+   <p>Put the contents of Tab Five here</p>
+</div>
+<!-- END TAB CONTENT -->
+<!-- END CODE -->

@@ -1,0 +1,41 @@
+DROP DATABASE fanmap;
+
+CREATE DATABASE fanmap;
+
+alter database fanmap DEFAULT CHARACTER SET utf8;
+
+GRANT SELECT,INSERT,UPDATE,DELETE,CREATE,DROP, ALTER
+         ON fanmap.*
+         TO 'root'@'%'
+         IDENTIFIED BY 'ericss0n';
+
+GRANT SELECT,INSERT,UPDATE,DELETE,CREATE,DROP, ALTER
+         ON fanmap.*
+         TO 'fanmap'@'%'
+         IDENTIFIED BY 'fanmap';
+
+GRANT SELECT,INSERT,UPDATE,DELETE,CREATE,DROP, ALTER
+         ON fanmap.*
+         TO 'fanmap'@'localhost'
+         IDENTIFIED BY 'fanmap';
+
+DROP TABLE Fan;
+
+CREATE TABLE Fan (
+  id BIGINT(20) NOT NULL AUTO_INCREMENT,
+  fb_page_id VARCHAR(64) ,
+  fb_user_id VARCHAR(64) ,
+  name VARCHAR(64) ,
+  pic_square VARCHAR(255) ,
+  profile_url VARCHAR(255) ,
+  longitude VARCHAR(64),
+  latitude VARCHAR(64),
+  city VARCHAR(255),
+  countryName VARCHAR(255),
+  countryCode VARCHAR(4),
+  PRIMARY KEY(id),
+  INDEX page_index(fb_page_id),
+  INDEX user_index(fb_user_id),
+  INDEX page_user_index(fb_page_id, fb_user_id)
+);
+

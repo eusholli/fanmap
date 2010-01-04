@@ -1,0 +1,38 @@
+<?php
+  require_once 'db/db.inc';
+  $query = "SELECT DISTINCT fb_page_id FROM Fan";
+  // echo $query;
+  $rows = queryDB($query);
+
+  $pageIds = array();
+  foreach($rows as $row) {
+    $pageIds[] = $row['fb_page_id'];
+  }
+
+  if(sizeof(pageIds) > 0) {
+    require_once "common/facebook.inc";
+    $facebook = getFacebookClient();
+
+    $pageInfo = $facebook->api_client->pages_getInfo($pageIds, 'page_id,name,pic_square,page_url', null, null);
+
+    echo "<table>";
+    foreach($pageIds as $page) {
+      $pageName = $page['name'];
+      $pageUrl = $page['page_url'];
+      $pagePic = $page['pic_square'];
+      $pageId = $page['page_id'];
+      echo "<tr>";
+      $addMeUrl = "http://64.124.154.141/fanmap/fanmap.php?fanmap_sig_page_id=" . $pageId;
+      $fanMapFetch = "<a id=\"fanmap_tab_2\" href='#' onclick=\"sub('$addMeUrl', 'fanmap_tab_2'); return false\" $selected>View Fan Map</a>";
+      
+      sprintf ("<td><img src=\"%s\" /></td><td>%s</td><td>%s</td><td><a href=\"%s\">Goto Fan Page</a></td>", $pagePic, $pageName, $fanMapFetch, $pageUrl);
+      echo "<td>";
+      echo "</tr>";
+    }
+    echo "</table>";
+
+  } else {
+    print "<p>No Fan Pages currently using Fan Map. Come back in the future when the word is out...</p>";
+  }
+?>
+

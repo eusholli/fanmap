@@ -1,0 +1,131 @@
+<style type="text/css">
+/*
+Tab Styles, fit fo look like an application tab set
+*/
+
+/* BEGIN TAB APPEARANCE */
+.clearfix:after { content: "."; display: block; clear: both; visibility: hidden; line-height: 0; height: 0; }
+.clearfix { display: inline-block; }
+html[xmlns] .clearfix { display: block; }
+* html .clearfix { height: 1%; }
+.fb-tabs { padding: 0px; border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: #898989; width: 100%; }
+.fb-tabs .left_tabs { float: left; padding-left: 10px; }
+.fb-tabs .right_tabs { float: right; padding-right: 10px; }
+.fb-tabitems { display: inline; list-style: none; margin: 0; padding: 0; text-align: center; }
+.fb-tabitems li { list-style:none; float:left; background: #f1f1f1 url(http://www.facebook.com/images/components/toggle_fanmap_tab_gloss.gif) top left repeat-x; margin-top: 0; margin-right: 0px; margin-bottom: -1px; margin-left: 0px; padding-top: 2px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; }
+.fb-tabitems li a { border: 1px solid #898989; display:block; color: #333; font-weight: bold; padding-top: 2px; padding-right: 8px; padding-bottom: 2px; padding-left: 9px; }
+.fb-tabitems li a small { font-size: 11px; font-weight: normal; }
+.fb-tabitems li a:focus { outline: 0px; }
+.fb-tabitems li.first a { border:1px solid #898989; }
+.fb-tabitems li a.selected { background: #6d84b4; border: 1px solid #3b5998; border-left: 1px solid #5973a9; border-right: 1px solid #5973a9; color: #fff; margin-left: -1px; }
+.fb-tabitems li.last a.selected { margin-left:-1px; border-left:1px solid #5973a9; border-right:1px solid #36538f; }
+.fb-tabitems li.first a.selected { margin: 0; border-left: 1px solid #36538f; border-right: 1px solid #5973a9; }
+.fb-tabitems li.first.last a.selected { border: 1px solid #36538f; }
+.fb-tabitems li a.selected:hover { text-decoration: none; }
+/* END TAB APPEARANCE */
+
+/* BEGIN CONTENT APPEARANCE */
+.content { border-width: 1px; border-style: solid; border-color: #898989; padding-left: 8px; padding-top:3px; padding-right: 8px; padding-bottom:3px; }
+.content #tabOne {
+   /* Put CSS code here to alter the look and feel of the displayed Tab One content */
+}
+.content #tabTwo {
+   /* Put CSS code here to alter the look and feel of the displayed Tab Two content */
+}
+.content #tabThree {
+   /* Put CSS code here to alter the look and feel of the displayed Tab Three content */
+}
+.content #tabFour {
+   /* Put CSS code here to alter the look and feel of the displayed Tab Four content */
+}
+.content #tabFive {
+   /* Put CSS code here to alter the look and feel of the displayed Tab Five content */
+}
+/* END CONTENT APPEARANCE */
+</style>
+
+<script type="text/javascript">
+<!-- 
+
+  function sub(post_url, id){
+    var ajax                = new Ajax();
+    ajax.responseType = Ajax.FBML;
+
+    ajax.ondone = function(data){
+      document.getElementById('page_content').setInnerFBML(data);
+//       new Dialog(Dialog.DIALOG_POP).showMessage('Status', id, button_confirm = 'Okay');
+      setselected(id);
+    }
+
+    ajax.onerror = function(){
+      new Dialog(Dialog.DIALOG_POP).showMessage('Error', 'Loading error! Please try again!', button_confirm = 'Okay');
+    }
+
+    var params = {'name' : 'mahmud'};
+    ajax.post(post_url, params);
+    return true;
+  }
+
+  function setselected(id) { 
+    // new Dialog(Dialog.DIALOG_POP).showMessage('Status', id, button_confirm = 'Okay');
+    document.getElementById("fanmap_tab_1").setClassName("");
+    document.getElementById("fanmap_tab_2").setClassName("");
+    document.getElementById("fanmap_tab_3").setClassName("");
+    // document.getElementById("fanmap_tab_4").setClassName("");
+    // document.getElementById("fanmap_tab_5").setClassName("");
+
+    document.getElementById(id).setClassName("selected");
+    return;
+  }
+
+//--> 
+</script>
+
+<!-- BEGIN TAB DISPLAY -->
+<div class="fb-tabs clearfix"><center>
+
+   <div class="left_tabs">
+      <ul class="fb-tabitems clearfix">
+         <?php
+ 	  $currentPage = basename($_SERVER['PHP_SELF']);
+          $baseUrl = 'http://64.124.154.141/fanmap/';
+ 	  $tabs=array("$baseUrl" . 'home.php' => 'Home', 
+		      "$baseUrl" . 'fanmap.php?fanmap_sig_page_id=' . $_POST["fb_sig_page_id"] => 'Fan Map'
+ 		     );
+ 	  
+	  $count = 1;
+ 	  foreach($tabs as $key => $value) {
+            if($count == 1) {
+              $selected = 'class="selected"';
+            } else {
+              $selected = "";
+            }
+            $tabId = 'fanmap_tab_' . $count++;
+            echo "<li><a id=\"$tabId\" href='#' onclick=\"sub('$key', '$tabId'); return false\" $selected>$value</a></li>";
+ 	  }
+
+          $tabId = 'fanmap_tab_' . $count++;
+          $addMeUrl = "http://apps.facebook.com/fanmapping/addfan.php?fanmap_sig_page_id=" . $_POST['fb_sig_page_id']; 
+          echo "<li><a id=\"$tabId\" href=\"$addMeUrl\" >Add Me</a></li>";
+ 	  
+ 	?>
+      </ul>
+   </div>
+
+<!--
+   <div class="right_tabs">
+      <ul class="fb-tabitems clearfix">
+         <li><a href="#" id="tabFourLI" onclick="sub('http://apps.facebook.com/fanmapping/index.php', 'page_content'); return false;">Tab Four</a></li>
+         <li><a href="#" id="tabFiveLI" onclick="showtab('tabFive'); return false;">Tab Five</a></li>
+      </ul>
+   </div>
+-->
+
+</center></div>
+<!-- END TAB DISPLAY -->
+
+<div id="page_content">
+  <fb:request-form action="index.php" method="POST" invite="true" type="Technology for Good" content="Your text goes here. <?php echo htmlentities("<fb:req-choice url=\"http://facebook.com/technologyforgood\" label=\"Become a fan of Technology for Good\"") ?>" > 
+    <fb:multi-friend-selector showborder="false" actiontext="Invite your friends to join Technology for Good."> 
+  </fb:request-form> 
+</div>

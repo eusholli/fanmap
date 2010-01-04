@@ -1,0 +1,69 @@
+<?php
+
+// set server access variables
+$host = "localhost";
+$user = "fanmap";
+$pass = "fanmap";
+$db = "fanmap";
+
+function _connect() {
+  // create mysqli object
+  // open connection
+  $mysqli = new mysqli($host, $user, $pass, $db);
+
+  // check for connection errors
+  if (mysqli_connect_errno()) {
+      die("Unable to connect!");
+  } else {
+    return $mysqli;
+  }
+}
+
+function _findFan($fb_page_id, $fb_user_id) {
+  // create query
+  $query = "SELECT * FROM Fanmap where fb_page_id = \"$fb_page_id\" AND fb_user_id = \"$fb_user_id\"";
+  // execute query
+  $result = $mysqli->query($query);
+  while($row = $result->fetch_assoc()) {
+    return $row;
+  }
+  return null;
+}
+
+
+// create query
+$query = "SELECT * FROM symbols";
+
+// execute query
+if ($result = $mysqli->query($query)) {
+    // see if any rows were returned
+    if ($result->num_rows > 0) {
+        // yes
+        // print them one after another
+        echo "<table cellpadding=10 border=1>";
+        while($row = $result->fetch_array()) {
+            echo "<tr>";
+            echo "<td>".$row[0]."</td>";
+            echo "<td>".$row[1]."</td>";
+            echo "<td>".$row[2]."</td>";
+            echo "</tr>";
+        }
+        echo "</table>";
+    }
+    else {
+        // no
+        // print status message
+        echo "No rows found!";
+    }
+
+    // free result set memory
+    $result->close();
+}
+else {
+    // print error message
+    echo "Error in query: $query. ".$mysqli->error;
+}
+// close connection
+$mysqli->close();
+
+?> 
